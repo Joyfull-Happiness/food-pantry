@@ -2,6 +2,7 @@
 Server/API for BE food pantry (Group 3)
 
 DB Fiddle Link: https://www.db-fiddle.com/f/23eGM2YefNA2gjujh9ACF2/8
+DB Fiddle Link: https://www.db-fiddle.com/f/23eGM2YefNA2gjujh9ACF2/8
 ----------------------------------*/
 
 /*----------------------------------
@@ -74,6 +75,7 @@ async function addOneUser(name, company_name, email, address, bio) {
 
 //2. GET /get-pantry-items
 
+//3. GET /get-pantry-items/:index
 
 //4. POST /post-one-pantry-item
 
