@@ -50,6 +50,18 @@ async function getNewestUser() {
 
 //2. GET /get-all-users
 
+//-------------------------------------
+//📊 Inventory ~
+//-------------------------------------
+
+//3. GET /get-food-by/:category
+//we'll have to define what category means (which is column names)
+//send a SQL query check (either or only)
+
+//4 is a stech goal: (you'll haev to pass through a request body)
+//4. GET /get-food-by/category
+//seperate aprameter by sepereate dynamic parameters
+
 //3. POST /add-one-user
 async function addOneUser(name, company_name, email, address, bio) {
   await db.query(
@@ -58,19 +70,17 @@ async function addOneUser(name, company_name, email, address, bio) {
   );
 }
 
-//-------------------------------------
-//📊 Inventory ~
-//-------------------------------------
-
 //1. GET /get-all-pantry-items
 
 //2. GET /get-pantry-items
 
-//3. GET /get-pantry-items
+//3. GET /get-pantry/
 
 //4. POST /post-one-pantry-item
 
 //5. POST /post-remove-one-pantry-item
+
+//6.
 
 //-------------------------------------
 //📊 Item COUNTS ~
