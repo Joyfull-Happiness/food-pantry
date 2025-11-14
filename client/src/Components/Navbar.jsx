@@ -4,7 +4,7 @@ import Contact from "../Pages/Contact";
 import InventoryPage from "../Pages/InventoryPage";
 
 export function Navbar() {
-  //Whoops
+  //Editing conflicts
     return (
         <>
         <div className='foodHeader'>
