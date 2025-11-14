@@ -74,23 +74,25 @@ async function addOneFoodBank(name, address, phone, hours, website, bio) {
 
 //1. GET /get-pantry-item-by/:category
 async function getPantryItemByCategory(category) {
-  // Allowed category columns to prevent SQL injection
-  // const allowedCategories = [
-  //   "isproduce",
-  //   "isperishable",
-  //   "isvegetarian",
-  //   "isvegan",
-  //   "isketo",
-  //   "isglutenfree",
-  //   "ishalal",
-  //   "iskosher",
-  //   "isbabyfood",
-  // ];
   console.log(category);
   console.log(`SELECT * FROM items WHERE ${category} = TRUE`);
   const data = await db.query(`SELECT * FROM items WHERE ${category} = TRUE`);
   return data.rows;
 }
+
+// Possible idea for error handling
+// Allowed category columns to prevent SQL injection
+// const allowedCategories = [
+//   "isproduce",
+//   "isperishable",
+//   "isvegetarian",
+//   "isvegan",
+//   "isketo",
+//   "isglutenfree",
+//   "ishalal",
+//   "iskosher",
+//   "isbabyfood",
+// ];
 
 //-------------------------------------
 //📊 Item COUNTS ~
