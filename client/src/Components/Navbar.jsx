@@ -1,8 +1,7 @@
-import react from "react";
 import Home from "../Pages/Home";
-import Home from "../Pages/About";
-import Home from "../Pages/Contact";
-import Home from "../Pages/InventoryPage";
+import About from "../Pages/About";
+import Contact from "../Pages/Contact";
+import InventoryPage from "../Pages/InventoryPage";
 
 export function Navbar() {
   //Whoops
