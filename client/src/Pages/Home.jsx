@@ -112,7 +112,7 @@ export default function Home() {
         Welcome to the FoodBank Home Page
       </h1>
 
-      {/* Main form: City (required), Foodbank name (optional), State (required) */}
+      {/* Main form: City (required), Foodbank name (optional), State (required) , dummy comment*/}
       <form onSubmit={handleSubmit}>
         {/* Top row: search inputs (city + optional food bank name) */}
         <div
