@@ -3,7 +3,7 @@ import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import InventoryPage from "../Pages/InventoryPage";
 
-export function Navbar() {
+export default function Navbar() {
   //Editing conflicts
     return (
         <>
