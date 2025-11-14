@@ -1,33 +1,17 @@
-// /src/App.jsx
-
-import React, { useState, useEffect } from 'react';
-import Home from "./Pages/Home";
-import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
-//import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import Header from "/";
 
 
-
-
-// import './style.css'; // Keep this! Global styling
-
-// --- Commented out old project imports to fix the error ---
-// import AllCountries from "./Pages/AllCountries.jsx";
-// import SavedCountries from "./Pages/SavedCountries.jsx";
-// import CountryDetail from "./Pages/CountryDetail.jsx";
-// import React, { useState, useEffect } from "react";
-// --- End commented out section ---
-
-
-
-//import SavedCountries from "./Pages/SavedCountries.jsx";
-// import localData from "../../localData.js";
-
+function App() {
 
 export default function App() {
   return (
-    // The App component renders your Home component
-    // If you had a Router here, you would temporarily comment it out too.
-    <Home />
+    <>
+     <div>
+      < Header navbarSpot={<Navbar/>}/>
+      <Footer />
+    </div>
+    </>
   );
 
 }
