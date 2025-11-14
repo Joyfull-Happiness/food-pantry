@@ -9,6 +9,7 @@ export default function FormPage() {
       <Navbar />
       <Header />
       <body>
+        <h1> Food Banks Sign Up </h1>
         <Form />
       </body>
       <Footer />
