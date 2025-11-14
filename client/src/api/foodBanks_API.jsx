@@ -25,6 +25,7 @@ export async function fetchFoodBanks_API({
       url.searchParams.set("type", type); // "foodbank" or "shelter"
     }
   
+    
     const res = await fetch(url.toString(), {
       method: "GET",
       headers: {
@@ -40,4 +41,3 @@ export async function fetchFoodBanks_API({
   
     return await res.json();
   }
-  

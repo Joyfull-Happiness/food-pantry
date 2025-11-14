@@ -20,10 +20,18 @@ export default function Home() {
   const trimmedCity = city.trim();
   const trimmedName = foodbankName.trim();
 
-  // ✅ Button enabled only when:
+  // Button enabled only when:
   // - city is not empty
   // - state is selected
   const isSubmitDisabled = !trimmedCity || !stateCode;
+
+  // Soft check for "looks like a food bank"
+  const isFoodBankType = (typeValue) => {
+    const t = (typeValue || "").toLowerCase();
+    // Be forgiving: treat anything containing "food" as a foodbank
+    // (e.g. "Food Bank", "Food Pantry", "Food distribution")
+    return t.includes("food");
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -45,8 +53,22 @@ export default function Home() {
         type: "foodbank",
       });
 
-      // 2. Optionally filter by food bank name on the client
-      let filtered = apiData;
+      console.log("API sample record:", apiData[0]);
+
+      console.log("RAW API DATA (length):", apiData.length);
+      console.log("RAW SAMPLE:", apiData[0]);
+
+      // 2. Keep only foodbank-like entries
+      let onlyFoodbanks = apiData.filter((item) => isFoodBankType(item.type));
+
+      // If our filter is too strict and removes everything,
+      // fall back to the original data so we don't show an
+      // empty page when there *are* results.
+      /*if (onlyFoodbanks.length === 0) {
+        onlyFoodbanks = apiData;
+      }*/
+
+      // 3. Optional name filter on top of that
       if (trimmedName) {
         const term = trimmedName.toLowerCase();
         filtered = apiData.filter((item) => {
@@ -55,7 +77,9 @@ export default function Home() {
         });
       }
 
-      setResults(filtered);
+      //temp: for testing the API before any filter is applied, sho entire result
+      //setResults(apiData);
+      setResults(onlyFoodbanks);
     } catch (err) {
       console.error(err);
 
@@ -75,7 +99,7 @@ export default function Home() {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="page">
       <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>
         Welcome to the FoodBank Home Page
       </h1>
@@ -128,41 +152,7 @@ export default function Home() {
         </p>
       )}
 
-      {/* Results */}
-      {/*<ul
-        style={{
-          listStyle: "none",
-          paddingLeft: 0,
-          marginTop: "1.5rem",
-          maxWidth: "900px",
-        }}
-      >
-        {results.map((item) => (
-          <li
-            key={item.id || item.name}
-            style={{
-              padding: "0.75rem 0",
-              borderBottom: "1px solid #e5e7eb",
-              fontSize: "0.9rem",
-            }}
-          >
-            <strong>{item.name || item.shelter_name}</strong>
-            {(item.city || item.state_abbreviation) && (
-              <span>
-                {` — ${item.city || ""}${
-                  item.city && item.state_abbreviation ? ", " : ""
-                }${item.state_abbreviation || ""}`}
-              </span>
-            )}
-            {item.full_address && (
-              <div style={{ fontSize: "0.8rem", color: "#4b5563" }}>
-                {item.full_address}
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>*/}
-
+      {/* Results in card layout */}
       <div
         style={{
           marginTop: "1.5rem",
