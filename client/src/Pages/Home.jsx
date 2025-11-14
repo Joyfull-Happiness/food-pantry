@@ -4,7 +4,6 @@ import SearchBar from "./SearchBar";
 import RegionFilter from "./RegionFilter";
 import FoodPantryCard from "./FoodPantryCard";
 
-
 import { fetchFoodBanks_API } from "../api/foodBanks_API";
 
 export default function Home() {
@@ -59,11 +58,8 @@ export default function Home() {
       console.log("RAW API DATA (length):", apiData.length);
       console.log("RAW SAMPLE:", apiData[0]);
 
-
       // 2. Keep only foodbank-like entries
-      let onlyFoodbanks = apiData.filter((item) =>
-        isFoodBankType(item.type)
-      );
+      let onlyFoodbanks = apiData.filter((item) => isFoodBankType(item.type));
 
       // If our filter is too strict and removes everything,
       // fall back to the original data so we don't show an
@@ -75,9 +71,8 @@ export default function Home() {
       // 3. Optional name filter on top of that
       if (trimmedName) {
         const term = trimmedName.toLowerCase();
-        onlyFoodbanks = onlyFoodbanks.filter((item) => {
-          const name =
-            (item.name || item.shelter_name || "").toLowerCase();
+        filtered = apiData.filter((item) => {
+          const name = (item.name || item.shelter_name || "").toLowerCase();
           return name.includes(term);
         });
       }
@@ -85,8 +80,6 @@ export default function Home() {
       //temp: for testing the API before any filter is applied, sho entire result
       //setResults(apiData);
       setResults(onlyFoodbanks);
-
-     
     } catch (err) {
       console.error(err);
 
@@ -97,9 +90,7 @@ export default function Home() {
         setResults([]);
         setError(""); // no error, just empty results
       } else {
-        setError(
-          message || "Something went wrong while fetching data."
-        );
+        setError(message || "Something went wrong while fetching data.");
         setResults([]);
       }
     } finally {
@@ -132,10 +123,7 @@ export default function Home() {
             onFoodbankNameChange={setFoodbankName}
           />
 
-          <RegionFilter
-            stateCode={stateCode}
-            onStateChange={setStateCode}
-          />
+          <RegionFilter stateCode={stateCode} onStateChange={setStateCode} />
         </div>
 
         {/* Submit button */}
@@ -150,8 +138,7 @@ export default function Home() {
               isSubmitDisabled || isLoading ? "#9ca3af" : "#111827",
             color: "white",
             fontSize: "0.9rem",
-            cursor:
-              isSubmitDisabled || isLoading ? "not-allowed" : "pointer",
+            cursor: isSubmitDisabled || isLoading ? "not-allowed" : "pointer",
           }}
         >
           {isLoading ? "Searching..." : "Find food banks"}

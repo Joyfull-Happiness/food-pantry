@@ -9,9 +9,10 @@ export default function FormPage() {
       <Navbar />
       <Header />
       <body>
-        <FoodForm />
+        <Form />
       </body>
       <Footer />
     </div>
   );
 }
+//comment here
