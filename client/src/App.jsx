@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
-import Header from "/";
+import "./App.css";
 import Form from "./Components/Form";
 
-export default function App() {
+function App() {
   return (
-    <>
-      <div>
-        <Header navbarSpot={<Navbar />} />
-        <Footer />
-        <Form />
-      </div>
-    </>
+    <div>
+      <Form />
+    </div>
   );
 }
+
+export default App;
