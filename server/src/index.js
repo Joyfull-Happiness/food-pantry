@@ -1,8 +1,7 @@
 /* --------------------------------
 Server/API for BE food pantry (Group 3)
 
-DB Fiddle Link: https://www.db-fiddle.com/f/23eGM2YefNA2gjujh9ACF2/8
-DB Fiddle Link: https://www.db-fiddle.com/f/23eGM2YefNA2gjujh9ACF2/8
+DB Fiddle Link: https://www.db-fiddle.com/f/23eGM2YefNA2gjujh9ACF2/12
 ----------------------------------*/
 
 /*----------------------------------
