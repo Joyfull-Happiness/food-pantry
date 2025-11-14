@@ -9,7 +9,7 @@ Boilerplate Code to Set Up Server
 
 
 // importing Node Modules
-import express from "express";
+import express from "express"
 import pg from "pg"; // pg stands for PostgreSQL, for connecting to the database
 import config from "./config.js"; // importing the connection string to our database hosted on Neon
 
