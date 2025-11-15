@@ -58,7 +58,7 @@ export default function InventoryPage() {
             </span>
           </p>
         </div>
-
+        {/* comment  */}
         <div className="profile-bio">
           <h2>Your Bio</h2>
           <p>{loggedInFoodBank.bio}</p>
