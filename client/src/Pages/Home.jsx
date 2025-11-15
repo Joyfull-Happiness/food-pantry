@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import RegionFilter from "./RegionFilter";
+import DietFilter from "./DietFilter";
+
 import FoodPantryCard from "./FoodPantryCard";
 
 import { fetchFoodBanks_API } from "../api/foodBanks_API";
@@ -11,6 +13,7 @@ export default function Home() {
   const [city, setCity] = useState("");
   const [foodbankName, setFoodbankName] = useState("");
   const [stateCode, setStateCode] = useState(""); // 2-letter code, e.g. "WA"
+  const [diet, setDiet] = useState(""); 
 
   // Data / status state
   const [results, setResults] = useState([]);
@@ -50,7 +53,8 @@ export default function Home() {
       const apiData = await fetchFoodBanks_API({
         city: trimmedCity,
         state: stateCode,
-        type: "foodbank",
+        type: "foodbank"
+        //diet: diet, // pass diet filter to API
       });
 
       console.log("API sample record:", apiData[0]);
@@ -104,7 +108,7 @@ export default function Home() {
         Welcome to the FoodBank Home Page
       </h1>
 
-      {/* Main form: City (required), Foodbank name (optional), State (required) */}
+      {/* Main form: City (required), Foodbank name (optional), State (required) , dummy comment*/}
       <form onSubmit={handleSubmit}>
         {/* Top row: search inputs (city + optional food bank name) */}
         <div
@@ -123,7 +127,16 @@ export default function Home() {
             onFoodbankNameChange={setFoodbankName}
           />
 
-          <RegionFilter stateCode={stateCode} onStateChange={setStateCode} />
+          <RegionFilter
+            stateCode={stateCode}
+            onStateChange={setStateCode}
+          />
+
+          {/* New “page-like” component for dietary filter */}
+         <DietFilter diet={diet} onDietChange={setDiet} />
+
+
+
         </div>
 
         {/* Submit button */}
