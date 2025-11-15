@@ -1,16 +1,18 @@
-// /src/App.jsx
-
-import React, { useState, useEffect } from 'react';
+import "./App.css";
 import Home from "./Pages/Home";
+import Form from "./Components/Form";
 import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
 
+import Header from "/";
 
 export default function App() {
   return (
-    // The App component renders your Home component
-    // If you had a Router here, you would temporarily comment it out too.
-    <Home />
+    <>
+      <div>
+        <Header navbarSpot={<Navbar />} />
+        <Home />
+        <Footer />
+      </div>
+    </>
   );
-
 }
-
