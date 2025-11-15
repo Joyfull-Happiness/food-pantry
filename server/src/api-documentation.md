@@ -148,13 +148,14 @@ VALUES
 
 ````json
 {
-  "name": "Tiger",
   "name": "Food Bank 3",
   "address": "789 Food Bank Road",
   "phone": "1239990000",
   "hours": "Saturday 9-5",
   "website": "foodbankthree.com",
-  "bio": "Hello, world!"
+  "bio": "Hello, world!",
+  "city": "San Diego",
+  "state": "California"
 }
 
 ---
