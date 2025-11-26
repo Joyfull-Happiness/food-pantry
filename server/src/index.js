@@ -303,7 +303,6 @@ app.get(
   }
 );
 
-/*
 // 8. POST /chat  (placeholder AI endpoint for the chat widget)
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
@@ -346,4 +345,3 @@ app.post("/chat", async (request, response) => {
     return response.status(500).json({ error: "Internal server error" });
   }
 });
- */

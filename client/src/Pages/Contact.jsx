@@ -9,112 +9,47 @@ export default function Contact() {
       <div className="container">
         <Header />
 
-        <main className="help-us-page">
-          <section className="help-us-intro">
-            <h1>Help Us Keep Food Bank Information Up To Date</h1>
-            <p>
-              Use this page to register your food bank or update information so
-              your community can find accurate, current resources.
-            </p>
-          </section>
+        <main className="contactmain">
+          <h1>Contact Us</h1>
 
-          <section className="help-us-steps">
-            <h2>How You Can Help</h2>
-            <ol>
-              <li>
-                <strong>Step 1:</strong> Go to the{" "}
-                <a href="/" className="inline-link">
-                  Food Bank Search
-                </a>{" "}
-                page and type your food bank’s name into the search bar to check
-                if it's already registered.
-              </li>
-              <li>
-                <strong>Step 2:</strong> If it's not listed, fill out the form
-                below.
-              </li>
-            </ol>
-          </section>
-          {/* omment */}
-          <section className="contact-card">
+          <div className="contact-card">
             <form className="contact-form">
-              <h2>Register Your Food Bank</h2>
-              <fieldset className="food-bank-details">
-                <legend>Food Bank Information</legend>
-
-                <label htmlFor="foodBankName">Food Bank Name</label>
-                <input
-                  id="foodBankName"
-                  name="foodBankName"
-                  type="text"
-                  required
-                />
-
-                <label htmlFor="foodBankWebsite">Food Bank Website</label>
-                <input id="foodBankWebsite" name="foodBankWebsite" type="url" />
-
-                <label htmlFor="foodBankEmail">Food Bank Email</label>
-                <input
-                  id="foodBankEmail"
-                  name="foodBankEmail"
-                  type="email"
-                  required
-                />
-
-                <label htmlFor="foodBankAddress">Food Bank Address</label>
-                <textarea
-                  id="foodBankAddress"
-                  name="foodBankAddress"
-                  rows={3}
-                  required
-                ></textarea>
-              </fieldset>
-
-              <fieldset className="submitter-details">
-                <legend>Your Information</legend>
-
-                <label htmlFor="submitterName">Your Full Name</label>
-                <input
-                  id="submitterName"
-                  name="submitterName"
-                  type="text"
-                  required
-                />
-
-                <label htmlFor="submitterEmail">Your Email</label>
-                <input
-                  id="submitterEmail"
-                  name="submitterEmail"
-                  type="email"
-                  required
-                />
-
-                <label htmlFor="submitterRole">
-                  Your Role / How You Collected This Info
-                </label>
-                <input id="submitterRole" name="submitterRole" type="text" />
-              </fieldset>
-
-              <div className="newsletter-consent">
-                <input
-                  id="newsletterConsent"
-                  name="newsletterConsent"
-                  type="checkbox"
-                  defaultChecked
-                />
-                <label htmlFor="newsletterConsent">
-                  I agree to be added to the newsletter and food bank directory.
-                </label>
+              <div className="form-group">
+                <label htmlFor="name">Name:</label>
+                <input type="text" id="name" placeholder="Asia" required />
               </div>
-              <p>
-                *By submitting this form, you agree to join our newsletter and
-                allow your food bank’s information to be added to our directory.
-              </p>
-              <button type="submit" className="submit-button">
-                Submit Food Bank Information
+
+              <div className="form-group">
+                <label htmlFor="email">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Asia@gmail.com"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="phone">Phone Number:</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  placeholder="123-456-789"
+                  maxLength="13"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="comment">Tell Us More!</label>
+                <textarea id="comment" rows="4"></textarea>
+              </div>
+
+              <button type="submit" className="contact-submit">
+                Submit
               </button>
             </form>
-          </section>
+          </div>
         </main>
       </div>
     </>
