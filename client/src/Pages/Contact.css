@@ -8,30 +8,80 @@
   --color-muted: #6b7280;
 }
 
-/* Page layout */
-.contactmain {
+/* PAGE WRAPPER */
+.contactmain.help-us-page {
   text-align: center;
   padding: 40px 20px;
+  background-color: var(--color-bg);
+  min-height: 100vh;
 }
 
-/* Contact header styles */
-.contactmain h1 {
+/* INTRO SECTION */
+.help-us-intro h1 {
   font-size: 2rem;
   color: var(--color-primary);
-  margin-bottom: 4rem;
-  margin-top: -5rem;
+  margin-bottom: 1rem;
+  margin-top: -2rem;
 }
 
-.contactmain h2 {
-  font-size: 1.3rem;
+.help-us-intro h2 {
+  font-size: 1.1rem;
   color: var(--color-muted);
-  margin-bottom: 30px;
+  max-width: 700px;
+  margin: 0 auto 2.5rem auto;
+  line-height: 1.5;
 }
 
-/* MAIN CARD — matches team cards + inventory cards */
+/* STEP SECTION */
+.help-us-steps {
+  max-width: 700px;
+  margin: 0 auto 2.5rem auto;
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1.5rem 1.5rem;
+  border-radius: 14px;
+  border-left: 4px solid var(--color-accent-green);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+}
+
+.help-us-steps h3 {
+  font-size: 1.3rem;
+  color: var(--color-primary);
+  margin-bottom: 0.9rem;
+  text-align: center;
+}
+
+.help-us-steps ol {
+  margin: 0;
+  padding-left: 1.3rem;
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.help-us-steps li {
+  margin-bottom: 0.9rem;
+}
+
+.help-us-steps strong {
+  color: var(--color-accent-yellow);
+}
+
+/* LINK INSIDE STEP 1 */
+.help-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.help-link:hover {
+  color: var(--color-accent-green);
+}
+
+/* MAIN CARD — matches your existing style */
 .contact-card {
   max-width: 700px;
-  margin: 0 auto;
+
   background-color: var(--color-surface);
   padding: 2.2rem 1.8rem;
   border-radius: 14px;
@@ -47,17 +97,33 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 22px;
+}
+
+/* FIELDSETS FOR GROUPS */
+.contact-form {
+  border: 1px solid rgba(107, 114, 128, 0.5);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.contact-form legend {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  padding: 0 8px;
 }
 
 /* INDIVIDUAL FORM GROUPS */
-.form-group {
+.contact-form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 12px;
 }
 
-.form-group label {
+.contact-form label {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-primary);
@@ -65,21 +131,41 @@
 }
 
 /* INPUTS + TEXTAREA */
-.form-group input,
-.form-group textarea {
+.contact-form input,
+.contact-form textarea {
   width: 100%;
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--color-muted);
   font-size: 1rem;
   background-color: var(--color-surface);
+  color: var(--color-text);
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--color-muted);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
   outline: none;
   border-color: var(--color-accent-green);
   box-shadow: 0 0 0 2px rgba(136, 165, 80, 0.2);
+}
+
+/* NEWSLETTER CONSENT */
+.newsletter-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.newsletter-consent input {
+  margin-top: 4px;
 }
 
 /* BUTTON */
@@ -93,17 +179,24 @@
   font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease,
+    box-shadow 0.1s ease;
+  box-shadow: 0 6px 14px rgba(60, 110, 145, 0.35);
 }
 
 .contact-submit:hover {
   background-color: var(--color-accent-green);
-  transform: scale(0.97);
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 4px 10px rgba(136, 165, 80, 0.4);
 }
 
 /* MOBILE */
 @media (max-width: 600px) {
   .contact-card {
     padding: 1.8rem 1.3rem;
+  }
+
+  .help-us-steps {
+    padding: 1.3rem 1.1rem;
   }
 }
