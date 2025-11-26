@@ -35,7 +35,7 @@ export default function Contact() {
               </li>
             </ol>
           </section>
-
+          {/* omment */}
           <section className="contact-card">
             <form className="contact-form">
               <h2>Register Your Food Bank</h2>
