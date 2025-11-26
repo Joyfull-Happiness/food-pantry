@@ -84,9 +84,14 @@ export default function About() {
             <div class="team-profiles">
               <h2>Our Dedicated Team and Contributions</h2>
               <p classname="the-mission">
-                This mission is made possible by a compassionate team committed
-                to treating hunger as a complex health issue. Learn more about
-                the people driving our strategy and daily operations.
+                This project is built entirely by volunteers who donate their
+                time, skills, and care to support local food access. If you’d
+                like to show appreciation, you can make a contribution directly
+                to the creators who keep this work going.
+                <a href="YOUR-DONATION-LINK" target="_blank">
+                  make a donation here
+                </a>
+                .
               </p>
               <div class="team-member">
                 <h3>LaJoie (Project Manager & Technical Architect)</h3>
