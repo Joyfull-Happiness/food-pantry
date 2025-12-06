@@ -81,7 +81,7 @@ export default function About() {
           </div>
           {/* Updated: aboutcard -> content-block */}
           <div>
-            <div class="team-profiles">
+            <div className="team-profiles">
               <h2>Our Dedicated Team and Contributions</h2>
               <p classname="the-mission">
                 This project is built entirely by volunteers who donate their
@@ -93,7 +93,7 @@ export default function About() {
                 </a>
                 .
               </p>
-              <div class="team-member">
+              <div className="team-member">
                 <h3>LaJoie (Project Manager & Technical Architect)</h3>
                 <ul>
                   <li>
@@ -107,7 +107,7 @@ export default function About() {
                   </li>
                 </ul>
               </div>
-              <div class="team-member">
+              <div className="team-member">
                 <h3>Shanthi (Front-End Developer)</h3>
                 <ul>
                   <li>
@@ -120,7 +120,7 @@ export default function About() {
                   </li>
                 </ul>
               </div>
-              <div class="team-member">
+              <div className="team-member">
                 <h3>Rachel (Front-End Developer)</h3>
                 <ul>
                   <li>
@@ -129,7 +129,7 @@ export default function About() {
                   </li>
                 </ul>
               </div>
-              <div class="team-member">
+              <div className="team-member">
                 <h3>Nicole (Back-End/Full-Stack Developer)</h3>
                 <ul>
                   <li>
@@ -153,7 +153,7 @@ export default function About() {
                   </li>
                 </ul>
               </div>
-              <div class="team-member">
+              <div className="team-member">
                 <h3>Tamara (Content Developer/Front-End)</h3>
                 <ul>
                   <li>
@@ -164,7 +164,7 @@ export default function About() {
                   </li>
                 </ul>
               </div>
-              <div class="team-member">
+              <div className="team-member">
                 <h3>Arciee (Page Builder & Frame Constultant)</h3>
                 <ul>
                   <li>
