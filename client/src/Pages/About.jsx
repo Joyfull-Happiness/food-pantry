@@ -98,7 +98,8 @@ export default function About() {
                 <ul>
                   <li>
                     <strong>Role:</strong> Project Management, Project
-                    Framework, Technical Architecture, CSS Design.
+                    Framework, Technical Architecture, CSS Design, BE Framework
+                    and Depolyment.
                   </li>
                   <li>
                     <strong>Page Deliverables:</strong> Inventory Page, Contact
@@ -124,7 +125,7 @@ export default function About() {
                 <ul>
                   <li>
                     <strong>Page Deliverables:</strong> Dedicated development of
-                    the Form Page.
+                    the Form in Form Page.
                   </li>
                 </ul>
               </div>
@@ -167,7 +168,7 @@ export default function About() {
                 <h3>Arciee (Page Builder & Frame Constultant)</h3>
                 <ul>
                   <li>
-                    <strong>Role:</strong> Built the Contact Page and cnosulted
+                    <strong>Role:</strong> Built the Contact Page and consulted
                     with Lajoie on the wire frames.
                   </li>
                 </ul>

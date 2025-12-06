@@ -59,8 +59,7 @@ function Form() {
       newErrors.userEmailAddress = "Email address is required.";
     if (!formValues.userPhoneNumber.trim())
       newErrors.userPhoneNumber = "Phone number is required.";
-    if (!formValues.organizationName.trim())
-      newErrors.organizationName = "Organization name is required.";
+
     if (!formValues.organizationHours.trim())
       newErrors.organizationHours = "Hours are required.";
     if (!formValues.foodBankName.trim())
@@ -73,63 +72,25 @@ function Form() {
       newErrors.foodBankState = "State is required.";
     if (!formValues.foodBankZipCode.trim())
       newErrors.foodBankZipCode = "Zip code is required.";
-    if (formValues.accountPassword.length < 6)
-      newErrors.accountPassword = "Password must be at least 6 characters.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-  //     if (!validateForm()) return;
-
-  //     const payload = {
-  //       ...formValues,
-  //       foodItemTypes: { ...foodItemTypes },
-  //     };
-
-  //     console.log("Sign up data:", payload);
-
-  //     setFormValues(initialFormValues);
-  //     setFoodItemTypes(initialFoodItems);
-  //     setErrors({});
-  //   };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!validateForm()) return;
-
-    const payload = {
-      ...formValues,
-      foodItemTypes: { ...foodItemTypes },
-    };
-
-    try {
-      const response = await fetch("/api/get-all-food-banks”)", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("Request failed");
-      }
-
-      const data = await response.json();
-      console.log("Saved organization:", data);
-
-      setFormValues(initialFormValues);
-      setFoodItemTypes(initialFoodItems);
-      setErrors({});
-    } catch (error) {
-      console.error("Error saving organization:", error);
+  const handleSubmit = (event) => {
+    const isFormValid = validateForm();
+    if (!isFormValid) {
+      event.preventDefault();
     }
   };
 
   return (
-    <form className="signup-form" onSubmit={handleSubmit}>
+    <form
+      action="https://formspree.io/f/mqavkyzr"
+      method="POST"
+      className="signup-form"
+      onSubmit={handleSubmit}
+    >
       <div>
         <label htmlFor="userFullNameInput">Full Name</label>
         <input
@@ -144,7 +105,7 @@ function Form() {
       </div>
 
       <div>
-        <label htmlFor="userEmailAddressInput">Email</label>
+        <label htmlFor="userEmailAddressInput">Your Email</label>
         <input
           id="userEmailAddressInput"
           name="userEmailAddress"
@@ -157,7 +118,20 @@ function Form() {
       </div>
 
       <div>
-        <label htmlFor="userPhoneNumberInput">Phone Number</label>
+        <label htmlFor="foodBankNameInput">Name of Food Bank</label>
+        <input
+          id="foodBankNameInput"
+          name="foodBankName"
+          type="text"
+          value={formValues.foodBankName}
+          onChange={handleInputChange}
+          placeholder="Name of the food bank"
+        />
+        {errors.foodBankName && <p>{errors.foodBankName}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="userPhoneNumberInput">Food Bank Phone Number</label>
         <input
           id="userPhoneNumberInput"
           name="userPhoneNumber"
@@ -170,20 +144,7 @@ function Form() {
       </div>
 
       <div>
-        <label htmlFor="organizationNameInput">Organization Name</label>
-        <input
-          id="organizationNameInput"
-          name="organizationName"
-          type="text"
-          value={formValues.organizationName}
-          onChange={handleInputChange}
-          placeholder="Name of your organization"
-        />
-        {errors.organizationName && <p>{errors.organizationName}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="organizationWebsiteInput">Organization Website</label>
+        <label htmlFor="organizationWebsiteInput">Food Bank Website</label>
         <input
           id="organizationWebsiteInput"
           name="organizationWebsite"
@@ -208,7 +169,7 @@ function Form() {
       </div>
 
       <div>
-        <label htmlFor="organizationBioInput">Organization Bio</label>
+        <label htmlFor="organizationBioInput">Food Bank Bio</label>
         <textarea
           id="organizationBioInput"
           name="organizationBio"
@@ -217,19 +178,6 @@ function Form() {
           placeholder="Brief description of your organization"
           rows={3}
         />
-      </div>
-
-      <div>
-        <label htmlFor="foodBankNameInput">Name of Food Bank</label>
-        <input
-          id="foodBankNameInput"
-          name="foodBankName"
-          type="text"
-          value={formValues.foodBankName}
-          onChange={handleInputChange}
-          placeholder="Name of the food bank"
-        />
-        {errors.foodBankName && <p>{errors.foodBankName}</p>}
       </div>
 
       <div>
@@ -286,19 +234,6 @@ function Form() {
           placeholder="Zip code"
         />
         {errors.foodBankZipCode && <p>{errors.foodBankZipCode}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="accountPasswordInput">Password</label>
-        <input
-          id="accountPasswordInput"
-          name="accountPassword"
-          type="password"
-          value={formValues.accountPassword}
-          onChange={handleInputChange}
-          placeholder="Choose a password"
-        />
-        {errors.accountPassword && <p>{errors.accountPassword}</p>}
       </div>
 
       <fieldset>
@@ -396,8 +331,12 @@ function Form() {
           Baby food
         </label>
       </fieldset>
+      <p>
+        *By submitting this form, you agree to join our newsletter and allow
+        your food bank’s information to be added to our directory.
+      </p>
 
-      <button type="submit">Sign Up</button>
+      <button type="submit">Submit Your Food Banks Info</button>
     </form>
   );
 }

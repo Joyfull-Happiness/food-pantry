@@ -5,21 +5,37 @@ import Form from "../Components/Form";
 export default function FormPage() {
   return (
     <div className="container">
-      <h1> Food Banks Sign Up Here! </h1>
-      <div className="content-block image-box">
-        <img
-          src="images/pexels-fotios-photos-3978831.jpg"
-          alt="Shelves stocked with specialized food items"
-        />
-      </div>
-      <h3>
-        Food banks, sign up below to join our inventory program and support the
-        movement to bring fresh, healthy food to those experiencing homelessness
-        and those in need. Here, you can easily track what’s in stock and share
-        your offerings with the community. By keeping your information updated,
-        future customers can see what you have available—so they can choose your
-        food bank and access the nourishment they need to live healthier lives.
-      </h3>
+      <section className="help-us-steps">
+        <h2>How You Can Help</h2>
+        <ol>
+          <li>
+            <strong>Step 1:</strong> Go to the{" "}
+            <a href="/" className="inline-link">
+              Food Bank Search
+            </a>{" "}
+            page and type your food bank’s name into the search bar to check if
+            it's already registered.
+          </li>
+          <li>
+            <strong>Step 2:</strong> If it's not listed, fill out the form
+            below.
+          </li>
+        </ol>
+        <div className="inventory-right">
+          <div className="inventory-card">
+            <img
+              src="../public/images/pexels-rdne-6646916.jpg"
+              alt="Food Bank"
+              className="inventory-image"
+            />
+
+            {/* Optional floating badges */}
+            <div className="inventory-badge badge-top-left">🍎 Fresh Food</div>
+            <div className="inventory-badge badge-top-right">🌱 Healthy</div>
+          </div>
+        </div>
+      </section>
+      {/* omment */}
       <Form />
     </div>
   );
