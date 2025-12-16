@@ -1,75 +1,158 @@
-import localData from "../../localData.js";
-import { Link } from "react-router-dom";
+// client/src/Pages/Home.jsx
 import React, { useState } from "react";
-import Form from "../Components/Form.jsx";
+import SearchBar from "./SearchBar";
+import RegionFilter from "./RegionFilter";
+import DietFilter from "./DietFilter";
+import FoodPantryCard from "./FoodPantryCard";
+import "./Home.css";
 
-export default function Home({ countries }) {
-  const [searchBar, setSearchBar] = useState("");
-  const [selectedRegionDropDown, setSelectedRegionDropDown] = useState("all");
+// NEW import – use your own backend API instead of RapidAPI
+import { fetchFoodBanksFromSiteAPI } from "../api/siteAPI";
 
-  let filteredCountries = countries || [];
+export default function Home() {
+  // Form state
+  const [city, setCity] = useState("");
+  const [foodbankName, setFoodbankName] = useState("");
+  const [stateCode, setStateCode] = useState(""); // 2-letter code, e.g. "WA"
+  const [diet, setDiet] = useState("");
 
-  // Filter by search query
-  // here i'm checking if the user has typed something in the search bar
-  if (searchBar) {
-    // below i am applying a filter to the  filteredCountries array
-    filteredCountries = filteredCountries.filter((country) => {
-      // for each tounry in hte array you need to 1) get the country's common name then convert it to lowercase and then check if it includes the search text and lowercase it again
-      return country.name.common
-        .toLowerCase()
-        .includes(searchBar.toLowerCase());
-    });
-  }
+  // Data / status state
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Filter by region
-  // here i am filtering by region. the user can click the drop down and see what the countries that are in the selected region.
-  if (selectedRegionDropDown !== "all") {
-    // apply another filter to the already-filtered countries
-    filteredCountries = filteredCountries.filter((country) => {
-      return (
-        // for each country get the country's region from the API convert it to lowercase and check to see if it exactly matches the slected dropdown option
-        country.region === selectedRegionDropDown
-      );
-    });
-    console.log("filteredCountries:", filteredCountries);
+  const trimmedCity = city.trim();
+  const trimmedName = foodbankName.trim();
+
+  // Button enabled only when:
+  // - city is not empty
+  // - state is selected
+  const isSubmitDisabled = !trimmedCity || !stateCode;
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (isSubmitDisabled) {
+      // Just in case user hits Enter while button is disabled
+      return;
+    }
+
+    setIsLoading(true);
+    setError("");
+    setResults([]);
+
+    try {
+      // Call YOUR backend API (via siteAPI helper)
+      const apiData = await fetchFoodBanksFromSiteAPI({
+        city: trimmedCity,
+        state: stateCode,
+        foodbankName: trimmedName,
+        diet, // diet value from dropdown
+      });
+
+      console.log("Site API data (length):", apiData.length);
+      console.log("Sample record:", apiData[0]);
+
+      // siteAPI already filters by city/state/name for now
+      setResults(apiData);
+    } catch (err) {
+      console.error(err);
+
+      const message =
+        err.message || "Something went wrong while fetching data.";
+      setError(message);
+      setResults([]);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
-    <>
-      {/* Search Bar */}
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search for a country..."
-          value={searchBar}
-          onChange={(e) => setSearchBar(e.target.value)}
-          className="search-input"
-        />
+    <div className="page">
+      <div className="home-banner">
+        <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>
+          Find Your Nearest Food Pantry
+        </h1>
+        <video src="images/pasta_banner_video.mp4" autoPlay muted loop></video>
       </div>
-      <div className="region-filter">
-        <select
-          value={selectedRegionDropDown}
-          onChange={(e) => setSelectedRegionDropDown(e.target.value)}
+      {/* Main form: City (required), Foodbank name (optional), State (required), Diet */}
+      <form onSubmit={handleSubmit}>
+        {/* Top row: search inputs (city + optional food bank name) */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            maxWidth: "900px",
+            marginBottom: "1rem",
+          }}
         >
-          <option value="all">Filter by Region</option>
-          <option value="Africa">Africa</option>
-          <option value="Americas">Americas</option>
-          <option value="Antarctic">Antarctic</option>
-          <option value="Asia">Asia</option>
-          <option value="Europe">Europe</option>
-          <option value="Oceania">Oceania</option>
-        </select>
-      </div>
+          <SearchBar
+            city={city}
+            onCityChange={setCity}
+            foodbankName={foodbankName}
+            onFoodbankNameChange={setFoodbankName}
+          />
 
-      <div className="card-container">
-        {/* Below i am looping through the sortedCountries array and displaying a CountryCard for each one */}
-        {filteredCountries.map((country) => (
-          // I am making a key for each CountryCard using the country’s common name
-          <CountryCard key={country.name?.common} country={country} />
+          <RegionFilter stateCode={stateCode} onStateChange={setStateCode} />
+
+          {/* Dietary filter */}
+          <DietFilter diet={diet} onDietChange={setDiet} />
+        </div>
+
+        {/* Submit button */}
+        <button
+          className="submit-btn"
+          type="submit"
+          disabled={isSubmitDisabled || isLoading}
+          style={{
+            padding: "0.5rem 1rem",
+            borderRadius: "4px",
+            border: "none",
+            backgroundColor:
+              isSubmitDisabled || isLoading ? "#9ca3af" : "#111827",
+            color: "white",
+            fontSize: "0.9rem",
+            cursor: isSubmitDisabled || isLoading ? "not-allowed" : "pointer",
+          }}
+        >
+          {isLoading ? "Searching..." : "Find food banks"}
+        </button>
+      </form>
+
+      {/* Error message */}
+      {error && (
+        <p style={{ color: "red", marginTop: "1rem", fontSize: "0.9rem" }}>
+          Error: {error}
+        </p>
+      )}
+
+      {/* Results in card layout */}
+      <div
+        style={{
+          marginTop: "1.5rem",
+          maxWidth: "1100px",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+          gap: "1rem",
+        }}
+      >
+        {results.map((item) => (
+          <FoodPantryCard key={item.id || item.name} pantry={item} />
         ))}
       </div>
 
-      <Form />
-    </>
+      {/* No results message (but only after a real attempt) */}
+      {!isLoading &&
+        !error &&
+        results.length === 0 &&
+        trimmedCity &&
+        stateCode && (
+          <p style={{ marginTop: "1rem", fontSize: "0.9rem" }}>
+            No food banks found for “{trimmedCity}, {stateCode}”
+            {trimmedName && ` with name containing “${trimmedName}”`}.
+          </p>
+        )}
+    </div>
   );
 }

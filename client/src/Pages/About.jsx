@@ -81,6 +81,7 @@ export default function About() {
           </div>
           {/* Updated: aboutcard -> content-block */}
           <div>
+<<<<<<< HEAD
             <div class="team-profiles">
               <h2>Our Dedicated Team and Contributions</h2>
               <p classname="the-mission">
@@ -89,11 +90,31 @@ export default function About() {
                 the people driving our strategy and daily operations.
               </p>
               <div class="team-member">
+=======
+            <div className="team-profiles">
+              <h2>Our Dedicated Team and Contributions</h2>
+              <p classname="the-mission">
+                This project is built entirely by volunteers who donate their
+                time, skills, and care to support local food access. If you’d
+                like to show appreciation, you can make a contribution directly
+                to the creators who keep this work going.
+                <a href="YOUR-DONATION-LINK" target="_blank">
+                  make a donation here
+                </a>
+                .
+              </p>
+              <div className="team-member">
+>>>>>>> d1a5c16ae3a3de667c8e1764813ec55177efa0be
                 <h3>LaJoie (Project Manager & Technical Architect)</h3>
                 <ul>
                   <li>
                     <strong>Role:</strong> Project Management, Project
+<<<<<<< HEAD
                     Framework, Technical Architecture, CSS Design.
+=======
+                    Framework, Technical Architecture, CSS Design, BE Framework
+                    and Depolyment.
+>>>>>>> d1a5c16ae3a3de667c8e1764813ec55177efa0be
                   </li>
                   <li>
                     <strong>Page Deliverables:</strong> Inventory Page, Contact
@@ -101,7 +122,11 @@ export default function About() {
                   </li>
                 </ul>
               </div>
+<<<<<<< HEAD
               <div class="team-member">
+=======
+              <div className="team-member">
+>>>>>>> d1a5c16ae3a3de667c8e1764813ec55177efa0be
                 <h3>Shanthi (Front-End Developer)</h3>
                 <ul>
                   <li>
@@ -114,16 +139,28 @@ export default function About() {
                   </li>
                 </ul>
               </div>
+<<<<<<< HEAD
               <div class="team-member">
+=======
+              <div className="team-member">
+>>>>>>> d1a5c16ae3a3de667c8e1764813ec55177efa0be
                 <h3>Rachel (Front-End Developer)</h3>
                 <ul>
                   <li>
                     <strong>Page Deliverables:</strong> Dedicated development of
+<<<<<<< HEAD
                     the Form Page.
                   </li>
                 </ul>
               </div>
               <div class="team-member">
+=======
+                    the Form in Form Page.
+                  </li>
+                </ul>
+              </div>
+              <div className="team-member">
+>>>>>>> d1a5c16ae3a3de667c8e1764813ec55177efa0be
                 <h3>Nicole (Back-End/Full-Stack Developer)</h3>
                 <ul>
                   <li>
@@ -147,7 +184,11 @@ export default function About() {
                   </li>
                 </ul>
               </div>
+<<<<<<< HEAD
               <div class="team-member">
+=======
+              <div className="team-member">
+>>>>>>> d1a5c16ae3a3de667c8e1764813ec55177efa0be
                 <h3>Tamara (Content Developer/Front-End)</h3>
                 <ul>
                   <li>
@@ -158,11 +199,19 @@ export default function About() {
                   </li>
                 </ul>
               </div>
+<<<<<<< HEAD
               <div class="team-member">
                 <h3>Arciee (Page Builder & Frame Constultant)</h3>
                 <ul>
                   <li>
                     <strong>Role:</strong> Built the Contact Page and cnosulted
+=======
+              <div className="team-member">
+                <h3>Arciee (Page Builder & Frame Constultant)</h3>
+                <ul>
+                  <li>
+                    <strong>Role:</strong> Built the Contact Page and consulted
+>>>>>>> d1a5c16ae3a3de667c8e1764813ec55177efa0be
                     with Lajoie on the wire frames.
                   </li>
                 </ul>

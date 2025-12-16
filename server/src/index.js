@@ -1,8 +1,6 @@
-/* --------------------------------
-Server/API for BE food pantry (Group 3)
+// Server/API for BE food pantry (Group 3)
 
-DB Fiddle Link: ______________
-----------------------------------*/
+// DB Fiddle Link: https://www.db-fiddle.com/f/23eGM2YefNA2gjujh9ACF2/14
 
 /*----------------------------------*/
 //Boilerplate Code to Set Up Server
@@ -39,53 +37,162 @@ Helper Functions (Test them in postman)
 //📊 Users (Food Banks)
 //-------------------------------------
 
-// 1. GET /get-newest-user
-async function getNewestUser() {
+//1. GET /get-all-food-banks
+async function getAllFoodBanks() {
+  const data = await db.query("SELECT * FROM food_banks ORDER BY id ASC");
+  return data.rows;
+}
+
+// 2. GET /get-newest-food-bank
+async function getNewestFoodBank() {
   // db.query() lets us query the SQL database
   // It takes in one parameter: a SQL query!
   const data = await db.query(
-    "SELECT * FROM users ORDER BY user_id DESC LIMIT $1"
+    "SELECT * FROM food_banks ORDER BY id DESC LIMIT 1"
   );
   return data.rows; // we have to use dot notation to get value of the rows property from the data object
 }
 
-//2. GET /get-all-users
+//3. POST /add-one-food-bank
+async function addOneFoodBank(
+  name,
+  address,
+  phone,
+  hours,
+  website,
+  bio,
+  city,
+  state
+) {
+  await db.query(
+    "INSERT INTO food_banks (name, address, phone, hours, website, bio, city, state) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+    [name, address, phone, hours, website, bio, city, state]
+  );
+}
 
 //-------------------------------------
 //📊 Inventory ~
 //-------------------------------------
 
-//3. GET /get-food-by/:category
-//we'll have to define what category means (which is column names)
-//send a SQL query check (either or only)
+//1. GET /get-all-pantry-items
+async function getAllPantryItems() {
+  const data = await db.query("SELECT * FROM items ORDER BY id ASC");
+  return data.rows;
+}
 
-//4 is a stech goal: (you'll haev to pass through a request body)
-//4. GET /get-food-by/category
-//seperate aprameter by sepereate dynamic parameters
+//2. GET /get-pantry-items-by/:category
+async function getPantryItemByCategory(category) {
+  const data = await db.query(`SELECT * FROM items WHERE ${category} = TRUE`);
+  return data.rows;
+}
 
-//3. POST /add-one-user
-async function addOneUser(name, company_name, email, address, bio) {
+// Possible idea for error handling
+// Allowed category columns to prevent SQL injection
+// const allowedCategories = [
+//   "isproduce",
+//   "isperishable",
+//   "isvegetarian",
+//   "isvegan",
+//   "isketo",
+//   "isglutenfree",
+//   "ishalal",
+//   "iskosher",
+//   "isbabyfood",
+// ];
+
+//3. POST /add-one-pantry-item
+async function addOnePantryItem(
+  food_bank_id,
+  name,
+  isproduce,
+  isperishable,
+  isvegetarian,
+  isvegan,
+  isketo,
+  isglutenfree,
+  ishalal,
+  iskosher,
+  isbabyfood
+) {
   await db.query(
-    "INSERT INTO users (name, category, can_fly, lives_in) VALUES ($1, $2, $3, $4)",
-    [name, country_name, email, bio]
+    "INSERT INTO items (food_bank_id, name, isproduce, isperishable, isvegetarian, isvegan, isketo,isglutenfree, ishalal, iskosher, isbabyfood) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+    [
+      food_bank_id,
+      name,
+      isproduce,
+      isperishable,
+      isvegetarian,
+      isvegan,
+      isketo,
+      isglutenfree,
+      ishalal,
+      iskosher,
+      isbabyfood,
+    ]
   );
 }
 
-//1. GET /get-all-pantry-items
+//4. POST /remove-one-pantry-item/:id
+async function removeOnePantryItem(id) {
+  const removedItem = await db.query(
+    "DELETE FROM items WHERE id = $1 RETURNING *",
+    [id]
+  );
+  return removedItem.rows[0];
+}
 
-//2. GET /get-pantry-items
+//5. GET /get-all-food-banks-by-category/:category
+async function getAllFoodBanksByCategory(category) {
+  const data = await db.query(
+    `SELECT 
+    food_banks.name,
+    food_banks.address,
+    food_banks.phone,
+    food_banks.hours,
+    food_banks.website,
+    food_banks.bio,
+    food_banks.city,
+    food_banks.state
+    FROM food_banks INNER JOIN items ON food_banks.id = items.food_bank_id WHERE items.${category} = TRUE`
+  );
+  return data.rows;
+}
 
-//3. GET /get-pantry/
+//added for presentation, needs to be edited later
+//7. /get-all-food-banks-by-category/:category?city=&state=&name=
+async function getAllFoodBanksByCategoryCityState(category, city, state, name) {
+  let query = `
+    SELECT DISTINCT
+      food_banks.id,
+      food_banks.name,
+      food_banks.address,
+      food_banks.phone,
+      food_banks.hours,
+      food_banks.website,
+      food_banks.bio,
+      food_banks.city,
+      food_banks.state
+    FROM food_banks
+    INNER JOIN items
+    ON food_banks.id = items.food_bank_id
+    WHERE items.${category} = TRUE
+  `;
 
-//4. POST /post-one-pantry-item
+  if (city) {
+    query += ` AND food_banks.city ILIKE '%${city}%'`;
+  }
 
-//5. POST /post-remove-one-pantry-item
+  if (state) {
+    query += ` AND food_banks.state ILIKE '%${state}%'`;
+  }
 
-//6.
+  if (name) {
+    query += ` AND food_banks.name ILIKE '%${name}%'`;
+  }
 
-//-------------------------------------
-//📊 Item COUNTS ~
-//-------------------------------------
+  const data = await db.query(query);
+  return data.rows;
+}
 
 /*------------------------------------------------------
 API Endpoints
@@ -95,40 +202,151 @@ API Endpoints
 //📊 USERS (Food Banks)
 //-------------------------------------
 
-// 1. GET /get-newest-user
-
-app.get("/get-newest-user", async (req, res) => {
-  const newestUser = await getNewestUser();
-  res.json(newestUser);
+//1. GET /get-all-food-banks
+app.get("/get-all-food-banks", async (req, res) => {
+  const allFoodBanks = await getAllFoodBanks();
+  res.json(allFoodBanks);
 });
 
-//2. GET /get-all-users
-app.get("/get-all-users", async (req, res) => {
-  const allUsers = await getAllUsers();
-  res.json(allUsers);
+//2. GET /get-newest-food-bank
+app.get("/get-newest-food-bank", async (req, res) => {
+  const newestFoodBank = await getNewestFoodBank();
+  res.json(newestFoodBank);
 });
 
-//3. POST /add-one-user
-app.post("/add-one-user", async (req, res) => {
-  const { name, country_name, email, bio } = req.body;
-  await addOneUser(name, country_name, email, bio);
-  res.send(`Success! A User was added.`);
+//3. POST /add-one-food-bank
+app.post("/add-one-food-bank", async (req, res) => {
+  const { name, address, phone, hours, website, bio, city, state } = req.body;
+  await addOneFoodBank(name, address, phone, hours, website, bio, city, state);
+  res.send(`Success! A Food Bank was added.`);
 });
 
 ///-------------------------------------
 //📊 Inventory ~
 //-------------------------------------
 
-//1. GET /get-all-pantry-items
+// 1. GET /get-all-pantry-items
+app.get("/get-all-pantry-items", async (req, res) => {
+  const pantryItems = await getAllPantryItems();
+  res.json(pantryItems);
+});
 
-//2. GET /get-pantry-items
+// 2. GET /get-pantry-items-by/:category
+app.get("/get-pantry-items-by/:category", async (req, res) => {
+  let category = req.params.category;
+  const food = await getPantryItemByCategory(category);
+  res.json(food);
+});
 
-//3. GET /get-pantry-items
+//3. POST /add-one-pantry-item
+app.post("/add-one-pantry-item", async (req, res) => {
+  const {
+    food_bank_id,
+    name,
+    isproduce,
+    isperishable,
+    isvegetarian,
+    isvegan,
+    isketo,
+    isglutenfree,
+    ishalal,
+    iskosher,
+    isbabyfood,
+  } = req.body;
 
-//4. POST /post-one-pantry-item
+  await addOnePantryItem(
+    food_bank_id,
+    name,
+    isproduce,
+    isperishable,
+    isvegetarian,
+    isvegan,
+    isketo,
+    isglutenfree,
+    ishalal,
+    iskosher,
+    isbabyfood
+  );
 
-//5. POST /post-remove-one-pantry-item
+  res.send(`Success! Pantry item was added.`);
+});
 
-//-------------------------------------
-//📊 Item COUNTS ~
-//-------------------------------------
+//5. POST /remove-one-pantry-item/:id
+app.post("/remove-one-pantry-item/:id", async (req, res) => {
+  const id = req.params.id;
+  const removedItem = await removeOnePantryItem(id);
+
+  res.json(removedItem);
+});
+
+//6. GET /get-all-food-banks-by-category/:category
+app.get("/get-all-food-banks-by-category/:category", async (req, res) => {
+  console.log(req.params.category);
+  let category = req.params.category;
+  const food = await getAllFoodBanksByCategory(category);
+  res.json(food);
+});
+
+//7. /get-all-food-banks-by-category/:category?city=&state=&name=
+app.get(
+  "/get-all-food-banks-by-category-city-state/:category",
+  async (req, res) => {
+    let category = req.params.category;
+    let city = req.query.city;
+    let state = req.query.state;
+    let name = req.query.name;
+
+    const food = await getAllFoodBanksByCategoryCityState(
+      category,
+      city,
+      state,
+      name
+    );
+    res.json(food);
+  }
+);
+
+/*
+// 8. POST /chat  (placeholder AI endpoint for the chat widget)
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+dotenv.config();
+
+const groqClient = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+app.post("/chat", async (request, response) => {
+  try {
+    const { userMessageText } = request.body;
+
+    if (!userMessageText) {
+      return response
+        .status(400)
+        .json({ error: "Missing userMessageText in request body" });
+    }
+
+    const aiReply = await groqClient.chat.completions.create({
+      model: "llama3-8b-8192",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a helpful assistant for a food pantry app. You help users understand dietary needs (gluten-free, vegan, halal, low-sugar, etc.) and give supportive wellness advice for people facing homelessness.",
+        },
+        {
+          role: "user",
+          content: userMessageText,
+        },
+      ],
+    });
+
+    const replyText =
+      aiReply.choices?.[0]?.message?.content ||
+      "I'm sorry, I couldn't generate a response.";
+
+    return response.json({ replyText });
+  } catch (error) {
+    console.error("Error in /chat endpoint:", error);
+    return response.status(500).json({ error: "Internal server error" });
+  }
+});
+ */

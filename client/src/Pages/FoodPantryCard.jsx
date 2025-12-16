@@ -1,38 +1,128 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+// client/src/Pages/FoodPantryCard.jsx
+import React from "react";
 
-export default function CountryCard({ country }) {
-  console.log(country, "from card");
-  const title = country?.name?.common || "Unknown";
-  const flagUrl = country?.flags?.png || country?.flags?.svg || "";
-  const population = country?.population ?? 0;
-  const region = country?.region || "—";
+// Expects a single food bank object from YOUR backend:
+// {
+//   id,
+//   name,
+//   address,
+//   phone,
+//   hours,
+//   website,
+//   bio,
+//   city,
+//   state
+// }
 
-  let capital = country.capital;
-  console.log("capital:", capital);
-  /*this is displaying different ways of gathering the countries capitol as some countries have multiple capitols
-it's saying if hte capitol is an array, string or there is nothing display them
-  */
+export default function FoodPantryCard({ pantry }) {
+  const { name, address, phone, hours, website, bio, city, state } = pantry;
+
+  const displayName = name || "Food bank";
+
+  const locationLine = [address, city, state].filter(Boolean).join(", ");
 
   return (
-    <Link className="all-links" to={`/country-detail/${country.name.common}`}>
-      <div className="CountryCard">
-        <article className="card">
-          <img className="card-flag" src={flagUrl} alt={`${title} flag`} />
-          <div className="card-body">
-            <h3 className="card-title">{title}</h3>
-            <p>
-              <strong>Population:</strong> {population.toLocaleString("en-US")}
-            </p>
-            <p>
-              <strong>Region:</strong> {region}
-            </p>
-            <p>
-              <strong>Capital:</strong> {capital}
-            </p>
-          </div>
-        </article>
-      </div>
-    </Link>
+    <article
+      className="pantry-card"
+      style={{
+        border: "1px solid #e5e7eb",
+        borderRadius: "0.75rem",
+        padding: "0.9rem 1rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.4rem",
+        backgroundColor: "white",
+      }}
+    >
+      {/* Name */}
+      <h2
+        className="pantry-card__title"
+        style={{
+          margin: 0,
+          fontSize: "1rem",
+          fontWeight: 600,
+        }}
+      >
+        {displayName}
+      </h2>
+
+      {/* Location */}
+      {locationLine && (
+        <p
+          style={{
+            fontSize: "0.85rem",
+            color: "#4b5563",
+            margin: 0,
+          }}
+        >
+          📍 {locationLine}
+        </p>
+      )}
+
+      {/* Hours */}
+      {hours && (
+        <p
+          style={{
+            fontSize: "0.8rem",
+            color: "#374151",
+            margin: 0,
+          }}
+        >
+          ⏰ Hours: {hours}
+        </p>
+      )}
+
+      {/* Bio / description */}
+      {bio && (
+        <p
+          style={{
+            fontSize: "0.8rem",
+            color: "#6b7280",
+            margin: 0,
+          }}
+        >
+          {bio}
+        </p>
+      )}
+
+      {/* Contact info */}
+      {phone && (
+        <p
+          style={{
+            fontSize: "0.8rem",
+            color: "#374151",
+            margin: 0,
+          }}
+        >
+          📞{" "}
+          <a
+            href={`tel:${phone}`}
+            style={{ textDecoration: "underline" }}
+          >
+            {phone}
+          </a>
+        </p>
+      )}
+
+      {website && (
+        <p
+          style={{
+            fontSize: "0.8rem",
+            color: "#374151",
+            margin: 0,
+          }}
+        >
+          🌐{" "}
+          <a
+            href={website}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "underline" }}
+          >
+            Website
+          </a>
+        </p>
+      )}
+    </article>
   );
 }

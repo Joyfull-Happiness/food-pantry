@@ -7,6 +7,8 @@ const initialFormValues = {
   userPhoneNumber: "",
   organizationName: "",
   organizationWebsite: "",
+  organizationHours: "",
+  organizationBio: "",
   foodBankName: "",
   foodBankAddressLineOne: "",
   foodBankCity: "",
@@ -16,19 +18,15 @@ const initialFormValues = {
 };
 
 const initialFoodItems = {
-  vegan: false,
-  halal: false,
-  kosher: false,
-  asianMeals: false,
-  hispanicMeals: false,
-  cannedGoods: false,
-  freshProduce: false,
-  frozenMeals: false,
-  babyFood: false,
-  glutenFree: false,
-  lowSodium: false,
-  dairyFree: false,
-  snackItems: false,
+  isProduce: false,
+  isPerishable: false,
+  isVegetarian: false,
+  isVegan: false,
+  isKeto: false,
+  isGlutenFree: false,
+  isHalal: false,
+  isKosher: false,
+  isBabyFood: false,
 };
 
 function Form() {
@@ -61,8 +59,9 @@ function Form() {
       newErrors.userEmailAddress = "Email address is required.";
     if (!formValues.userPhoneNumber.trim())
       newErrors.userPhoneNumber = "Phone number is required.";
-    if (!formValues.organizationName.trim())
-      newErrors.organizationName = "Organization name is required.";
+
+    if (!formValues.organizationHours.trim())
+      newErrors.organizationHours = "Hours are required.";
     if (!formValues.foodBankName.trim())
       newErrors.foodBankName = "Food bank name is required.";
     if (!formValues.foodBankAddressLineOne.trim())
@@ -73,31 +72,25 @@ function Form() {
       newErrors.foodBankState = "State is required.";
     if (!formValues.foodBankZipCode.trim())
       newErrors.foodBankZipCode = "Zip code is required.";
-    if (formValues.accountPassword.length < 6)
-      newErrors.accountPassword = "Password must be at least 6 characters.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    if (!validateForm()) return;
-
-    const payload = {
-      ...formValues,
-      foodItemTypes: { ...foodItemTypes },
-    };
-
-    console.log("Sign up data:", payload);
-
-    setFormValues(initialFormValues);
-    setFoodItemTypes(initialFoodItems);
-    setErrors({});
+    const isFormValid = validateForm();
+    if (!isFormValid) {
+      event.preventDefault();
+    }
   };
 
   return (
-    <form className="signup-form" onSubmit={handleSubmit}>
+    <form
+      action="https://formspree.io/f/mqavkyzr"
+      method="POST"
+      className="signup-form"
+      onSubmit={handleSubmit}
+    >
       <div>
         <label htmlFor="userFullNameInput">Full Name</label>
         <input
@@ -112,7 +105,7 @@ function Form() {
       </div>
 
       <div>
-        <label htmlFor="userEmailAddressInput">Email</label>
+        <label htmlFor="userEmailAddressInput">Your Email</label>
         <input
           id="userEmailAddressInput"
           name="userEmailAddress"
@@ -122,44 +115,6 @@ function Form() {
           placeholder="you@example.org"
         />
         {errors.userEmailAddress && <p>{errors.userEmailAddress}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="userPhoneNumberInput">Phone Number</label>
-        <input
-          id="userPhoneNumberInput"
-          name="userPhoneNumber"
-          type="tel"
-          value={formValues.userPhoneNumber}
-          onChange={handleInputChange}
-          placeholder="Example: 470-555-1234"
-        />
-        {errors.userPhoneNumber && <p>{errors.userPhoneNumber}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="organizationNameInput">Organization Name</label>
-        <input
-          id="organizationNameInput"
-          name="organizationName"
-          type="text"
-          value={formValues.organizationName}
-          onChange={handleInputChange}
-          placeholder="Name of your organization"
-        />
-        {errors.organizationName && <p>{errors.organizationName}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="organizationWebsiteInput">Organization Website</label>
-        <input
-          id="organizationWebsiteInput"
-          name="organizationWebsite"
-          type="url"
-          value={formValues.organizationWebsite}
-          onChange={handleInputChange}
-          placeholder="https://example.org"
-        />
       </div>
 
       <div>
@@ -173,6 +128,56 @@ function Form() {
           placeholder="Name of the food bank"
         />
         {errors.foodBankName && <p>{errors.foodBankName}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="userPhoneNumberInput">Food Bank Phone Number</label>
+        <input
+          id="userPhoneNumberInput"
+          name="userPhoneNumber"
+          type="tel"
+          value={formValues.userPhoneNumber}
+          onChange={handleInputChange}
+          placeholder="Example: 470-555-1234"
+        />
+        {errors.userPhoneNumber && <p>{errors.userPhoneNumber}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="organizationWebsiteInput">Food Bank Website</label>
+        <input
+          id="organizationWebsiteInput"
+          name="organizationWebsite"
+          type="url"
+          value={formValues.organizationWebsite}
+          onChange={handleInputChange}
+          placeholder="https://example.org"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="organizationHoursInput">Hours of Operation</label>
+        <input
+          id="organizationHoursInput"
+          name="organizationHours"
+          type="text"
+          value={formValues.organizationHours}
+          onChange={handleInputChange}
+          placeholder="Mon–Fri 9am–5pm"
+        />
+        {errors.organizationHours && <p>{errors.organizationHours}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="organizationBioInput">Food Bank Bio</label>
+        <textarea
+          id="organizationBioInput"
+          name="organizationBio"
+          value={formValues.organizationBio}
+          onChange={handleInputChange}
+          placeholder="Brief description of your organization"
+          rows={3}
+        />
       </div>
 
       <div>
@@ -231,19 +236,6 @@ function Form() {
         {errors.foodBankZipCode && <p>{errors.foodBankZipCode}</p>}
       </div>
 
-      <div>
-        <label htmlFor="accountPasswordInput">Password</label>
-        <input
-          id="accountPasswordInput"
-          name="accountPassword"
-          type="password"
-          value={formValues.accountPassword}
-          onChange={handleInputChange}
-          placeholder="Choose a password"
-        />
-        {errors.accountPassword && <p>{errors.accountPassword}</p>}
-      </div>
-
       <fieldset>
         <legend>
           What food items do you regularly have? (check all that apply)
@@ -252,8 +244,38 @@ function Form() {
         <label>
           <input
             type="checkbox"
-            name="vegan"
-            checked={foodItemTypes.vegan}
+            name="isProduce"
+            checked={foodItemTypes.isProduce}
+            onChange={handleFoodItemChange}
+          />
+          Produce
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="isPerishable"
+            checked={foodItemTypes.isPerishable}
+            onChange={handleFoodItemChange}
+          />
+          Perishable
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="isVegetarian"
+            checked={foodItemTypes.isVegetarian}
+            onChange={handleFoodItemChange}
+          />
+          Vegetarian
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="isVegan"
+            checked={foodItemTypes.isVegan}
             onChange={handleFoodItemChange}
           />
           Vegan
@@ -262,88 +284,18 @@ function Form() {
         <label>
           <input
             type="checkbox"
-            name="halal"
-            checked={foodItemTypes.halal}
+            name="isKeto"
+            checked={foodItemTypes.isKeto}
             onChange={handleFoodItemChange}
           />
-          Halal
+          Keto
         </label>
 
         <label>
           <input
             type="checkbox"
-            name="kosher"
-            checked={foodItemTypes.kosher}
-            onChange={handleFoodItemChange}
-          />
-          Kosher
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="asianMeals"
-            checked={foodItemTypes.asianMeals}
-            onChange={handleFoodItemChange}
-          />
-          Asian
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="hispanicMeals"
-            checked={foodItemTypes.hispanicMeals}
-            onChange={handleFoodItemChange}
-          />
-          Hispanic
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="cannedGoods"
-            checked={foodItemTypes.cannedGoods}
-            onChange={handleFoodItemChange}
-          />
-          Canned goods
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="freshProduce"
-            checked={foodItemTypes.freshProduce}
-            onChange={handleFoodItemChange}
-          />
-          Fresh produce
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="frozenMeals"
-            checked={foodItemTypes.frozenMeals}
-            onChange={handleFoodItemChange}
-          />
-          Frozen meals
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="babyFood"
-            checked={foodItemTypes.babyFood}
-            onChange={handleFoodItemChange}
-          />
-          Baby food / formula
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="glutenFree"
-            checked={foodItemTypes.glutenFree}
+            name="isGlutenFree"
+            checked={foodItemTypes.isGlutenFree}
             onChange={handleFoodItemChange}
           />
           Gluten-free
@@ -352,35 +304,39 @@ function Form() {
         <label>
           <input
             type="checkbox"
-            name="lowSodium"
-            checked={foodItemTypes.lowSodium}
+            name="isHalal"
+            checked={foodItemTypes.isHalal}
             onChange={handleFoodItemChange}
           />
-          Low-sodium
+          Halal
         </label>
 
         <label>
           <input
             type="checkbox"
-            name="dairyFree"
-            checked={foodItemTypes.dairyFree}
+            name="isKosher"
+            checked={foodItemTypes.isKosher}
             onChange={handleFoodItemChange}
           />
-          Dairy-free
+          Kosher
         </label>
 
         <label>
           <input
             type="checkbox"
-            name="snackItems"
-            checked={foodItemTypes.snackItems}
+            name="isBabyFood"
+            checked={foodItemTypes.isBabyFood}
             onChange={handleFoodItemChange}
           />
-          Snacks
+          Baby food
         </label>
       </fieldset>
+      <p>
+        *By submitting this form, you agree to join our newsletter and allow
+        your food bank’s information to be added to our directory.
+      </p>
 
-      <button type="submit">Sign Up</button>
+      <button type="submit">Submit Your Food Banks Info</button>
     </form>
   );
 }
